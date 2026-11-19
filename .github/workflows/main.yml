@@ -1,0 +1,42 @@
+
+name: Bekiroglu AI Trader 2.0
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bekiroglu-paper-trader
+  cancel-in-progress: false
+
+jobs:
+  paper-trading:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Get AI Trader 2.0
+        uses: actions/checkout@v4
+        with:
+          ref: ai-trader-v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check trading engine
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          LIVE_TRADING: "false"
+        run: |
+          python -m py_compile app.py engine.py store.py
+          echo "Paper trading files checked."
