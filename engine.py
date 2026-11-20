@@ -5,7 +5,7 @@ import yfinance as yf
 import pandas as pd
 from store import read_state, write_state
 
-INITIAL = 1000.0
+INITIAL = 100
 TRADE_RISK = 0.005
 STOP_PCT = 0.025
 MAX_POSITION = 0.25
