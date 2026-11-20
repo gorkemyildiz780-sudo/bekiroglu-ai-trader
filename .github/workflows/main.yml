@@ -37,6 +37,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           LIVE_TRADING: "false"
+      
         run: |
           python -m py_compile app.py engine.py store.py
-          echo "Paper trading files checked."
+          python engine.py
